@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30" status="debug">
+    <!-- monitorInterval: automatic reload every 30sec on changes -->
+    <!-- status: log4j2 internal logging (not for the app) -->
+
+     <Properties>
+        <Property name="filename-all">D:/Random/settings/logs/all.log</Property>
+        <Property name="filename-error">D:/Random/settings/logs/err.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- the standard-console-appender -->
+        <Console name="appender-Console-all" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- the appenders for server 1 -->
+        <File name="appender-all" fileName="${filename-all}" append="true">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="appender-error" fileName="${filename-error}" append="true">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+    </Appenders>
+
+
+    <Loggers>
+        <!-- Every configuration must have a root logger. If one is not configured the default root LoggerConfig is ERROR with Console appender attached. -->
+        <Root level="ALL">
+            <AppenderRef ref="appender-Console-all"/>
+            <AppenderRef ref="appender-all"/>
+        </Root>
+
+        <!-- server1-loggers -->
+        <!-- additivity means, that parent-logger (in every case the root-logger) will also get the chance to log this stuff -->
+        <Logger name="ToXML" additivity="TRUE" level="ALL">
+            <AppenderRef ref="appender-error" level="ERROR"/>
+        </Logger>
+        <Logger name="UploadServlet" additivity="TRUE" level="ALL">
+            <AppenderRef ref="appender-error" level="ERROR"/>
+        </Logger>
+
+    </Loggers>
+</Configuration>
